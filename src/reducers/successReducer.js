@@ -7,8 +7,6 @@ import { actionTypes } from '../actions'
  * @returns {boolean} - new success statel
  */
 
-
-
 export default (state, action) => {
 
   switch(action.type) {
