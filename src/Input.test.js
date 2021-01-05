@@ -10,9 +10,6 @@ import Input from './Input';
 
 
 const setup = (initialState={}) => {
-  // const store = storeFactory(initialState)
-  // const wrapper = shallow(<Input store={store}/>).dive().dive()
-  // return wrapper
   const mockStore = configureStore(middlewares)
   const store = mockStore(initialState)
 
@@ -25,7 +22,11 @@ const setup = (initialState={}) => {
   return wrapper
 }
 
-
+const factorySetup = (initialState={}) => {
+  const store = storeFactory(initialState);
+  const wrapper = shallow(<Input store={store} />).dive().dive();
+  return wrapper;
+}
 
 
 describe('render', () => {
@@ -87,7 +88,19 @@ describe('word has been guessed', () => {
   });
 })
 
-test('', () => {
+describe('redux props', () => {
+  test('has success piece of state as prop', () => {
+    const success = false;
+    const wrapper = setup({success})
+    const successProps = wrapper.props().store.getState().success
 
+    expect(successProps).toBe(success)
+  });
+  test('guessWord action creator is a function prop', () => {
+    const wrapper = factorySetup();
+    const guessWordProps = wrapper.instance().props.guessWord
+
+    expect(guessWordProps).toBeInstanceOf(Function)
+  })
 })
 
